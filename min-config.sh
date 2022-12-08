@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
-CFLAGS="-static"
-LDFLAGS="-static"
+CFLAGS="-static -O3"
+LDFLAGS="-static -O3"
 CC=../clang-wrapper.sh
 LD=../clang-wrapper.sh
 
