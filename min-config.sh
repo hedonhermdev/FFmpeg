@@ -1,18 +1,16 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
-CFLAGS="-O3 -fPIC -static ${ARM_CFLAGS}"
-LDFLAGS="${ARM_CFLAGS}"
-CC=../user-trampoline-arm64/llvm_arm_nacl/build/bin/clang
-# CC=clang
-# CFLAGS="-O3 -fPIC -static"
-# LDFLAGS="-O3 -fPIC -static"
+CFLAGS="-static"
+LDFLAGS="-static"
+CC=../clang-wrapper.sh
+LD=../clang-wrapper.sh
 
 configureFlags=(
         --cc=$CC
         --ld=$CC
-        --extra-ldflags="$LDFLAGS"
         --extra-cflags="$CFLAGS"
+        --extra-ldflags="$LDFLAGS"
         --disable-all
         --disable-everything # affects encoders/decoders/muxers/demuxers/filters/protocols/devices
         --disable-autodetect
@@ -32,11 +30,14 @@ configureFlags=(
         --enable-avcodec
         --enable-avfilter
         --enable-avformat
+        --enable-swscale
 
         --enable-protocol=file
         --enable-decoder=h264
         --enable-demuxer=mov
         --enable-parser=h264
+        --enable-encoder=gif
+        --enable-muxer=gif
     )
 
 exec ./configure "${configureFlags[@]}"
